@@ -1,0 +1,87 @@
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+*,
+*:before,
+*:after {
+  margin: 0;
+  box-sizing: inherit;
+}
+
+.stylesNav {
+  background-color: #b5d4e0;
+  display: flex;
+  justify-content: space-evenly;
+  height: 48px;
+}
+
+.stylesLink  {
+  text-decoration: none;
+  color: black;
+  padding: 1rem;
+  font-size: 16px;
+  text-align: center;
+  border-radius: 5px;
+  width: 120px;
+
+  &:hover {
+      background-color: #7A9BAE
+  }
+}
+
+button, .btn {
+  cursor: pointer;
+  background-color: #b5d4e0;
+  border-width: 1px;
+  border-color: #7A9BAE;
+  border-style: solid;
+  border-radius: 5px;
+}
+
+.btn{
+  text-decoration: none;
+  color: black;
+  font-weight: 700;
+  display: block;
+  font-size: 18px;
+  width: 120px;
+  /* height: 36px; */
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin: auto;
+  text-align: center;
+  align-items: center;
+}
+
+.employeeListSection{
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: auto;
+  gap: 24px
+}
+
+.employeeListSection > h2{
+  text-align: center;
+  font-size: 24px;
+}
+
+.employeeList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.employeeItemList{
+  font-size: 16px;
+  line-height: 150%;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  background-color: #b5d4e0;
+  padding: 1rem;
+  border-radius: 5px;
+}

@@ -3,6 +3,8 @@ import CompLayout from "./layout"
 import CompShowEmployees from "./components/employees/ShowEmployees"
 import CompCreateEmployee from "./components/employees/CreateEmployee"
 import CompEditEmployee from "./components/employees/EditEmployee"
+import CompShowNews from "./components/news/showNews"
+import CompCreateNew from "./components/news/CreateNew"
 
 function App() {
 
@@ -14,6 +16,8 @@ function App() {
             <Route path="/employees" element={<CompShowEmployees />} />
             <Route path="/employees/create" element={<CompCreateEmployee />} />
             <Route path="/employees/edit/:id" element={<CompEditEmployee />} />
+            <Route path="/news" element={<CompShowNews />} />
+            <Route path="/news/create" element={<CompCreateNew />} />
           </Route>
         </Routes>
         {/* <h1>Sistema de Gestión de Nómina</h1> */}

@@ -29,8 +29,10 @@ export default function CompShowEmployees() {
                     <table className="table table-striped table-hover">
                         <thead>
                             <tr>
+                                <th className="text-center">Identificación</th>
                                 <th className="text-center">Nombre</th>
-                                <th className="text-center">Apellido</th>
+                                <th className="text-center">Cargo</th>
+                                <th className="text-center">Estado</th>
                                 <th className="text-center">Salario</th>
                                 <th className="text-center">Acciones</th>
                             </tr>
@@ -41,11 +43,14 @@ export default function CompShowEmployees() {
                                     key={employee.id}
                                     className="text-center"
                                 >
-                                    <td>{employee.firstName}</td>
-                                    <td>{employee.firstSurname}</td>
+                                    <td>{employee.identification}</td>
+                                    <td>{employee.firstName} {employee.firstSurname}</td>
+                                    <td> Aquí va el cargo</td>
+                                    <td>{employee.isActive ? 'Activo' : 'Inactivo'}</td>
                                     <td>{employee.salary}</td>
                                     <td className="d-flex gap-2 justify-content-center">
                                         <NavLink to={`/employees/edit/${employee.id}`} className="btn btn-secondary"><i className="fa-solid fa-pen-to-square"></i></NavLink>
+                                        <button className="btn btn-success"><i className="fa-solid fa-toggle-on"></i></button>
                                         <button className="btn btn-danger" onClick={() => deleteEmployee(employee.id)}><i className="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>

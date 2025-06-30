@@ -10,7 +10,8 @@ export default function CompEditEmployee() {
     const [otherSurnames, setOtherSurnames] = useState('');
     const [salary, setSalary] = useState('');
     const [transportAllowance, setTransportAllowance] = useState(false);
-    
+    const [position, setPosition] = useState('');
+
     const navigate = useNavigate();
 
     const { id } = useParams();
@@ -26,6 +27,7 @@ export default function CompEditEmployee() {
                 otherNames: otherNames,
                 salary: parseFloat(salary),
                 transportAllowance: transportAllowance,
+                position: position,
             }
         );
         navigate('/employees');
@@ -45,6 +47,7 @@ export default function CompEditEmployee() {
         setOtherSurnames(data.secondSurname);
         setSalary(data.salary);
         setTransportAllowance(data.transportAllowance);
+        setPosition(data.position);
     }
 
     return (
@@ -111,24 +114,43 @@ export default function CompEditEmployee() {
                             </div>
                         </div>
 
-                        <div className="px-4 mb-3">
-                            <label htmlFor="salary" className="form-label fs-4">Salario</label>
-                            <input
-                                type="number"
-                                className="form-control fs-4"
-                                id="salary"
-                                value={salary}
-                                onChange={e => setSalary(e.target.value)}
-                                step="0.01"
-                            />
+                        <div className="d-flex flex-row gap-4">
+                            <div className="px-4 mb-3 w-50">
+                                <label htmlFor="salary" className="form-label fs-4">Salario</label>
+                                <input
+                                    type="number"
+                                    className="form-control fs-4"
+                                    id="salary"
+                                    value={salary}
+                                    onChange={e => setSalary(e.target.value)}
+                                    step="0.01"
+                                />
+                            </div>
+                            <div className="mb-3 px-4 w-50">
+                                <label htmlFor="position" className="form-label fs-4">Cargo</label>
+                                <input
+                                    type="text"
+                                    className="form-control fs-4"
+                                    id="position"
+                                    value={position}
+                                    onChange={e => setPosition(e.target.value)}
+                                />
+                            </div>
                         </div>
+
                         <div className="d-flex justify-content-center gap-4 mb-3">
                             <input
                                 type="checkbox"
                                 name="transportAllowance"
                                 id="transportAllowance"
                                 checked={transportAllowance}
-                                onChange={e => setTransportAllowance(e.target.checked)}
+                                onChange={e => {
+                                    if(e.target.checked) {
+                                        setTransportAllowance(true);
+                                    } else {
+                                        setTransportAllowance(false);
+                                    }
+                                }}
                             />
                             <label htmlFor="transportAllowance" className="form-label fs-4">Auxilio de Transporte</label>
                         </div>

@@ -49,7 +49,7 @@ export default function CompShowNews() {
                                     <td>{n.concept.name}</td>
                                     <td>{n.value}</td>
                                     <td className="d-flex gap-2 justify-content-center">
-                                        <NavLink to={`/employees/edit/${n.id}`} className="btn btn-secondary"><i className="fa-solid fa-pen-to-square"></i></NavLink>
+                                        <NavLink to={`/news/edit/${n.id}`} className="btn btn-secondary"><i className="fa-solid fa-pen-to-square"></i></NavLink>
                                         <button className="btn btn-danger" onClick={() => deleteNew(n.id)}><i className="fa-solid fa-trash-can"></i></button>
                                     </td>
                                 </tr>

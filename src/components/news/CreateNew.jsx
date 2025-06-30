@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function CompCreateNew() {
@@ -11,14 +11,80 @@ export default function CompCreateNew() {
     const [factor, setFactor] = useState('');
     const navigate = useNavigate();
 
+    const [concepts, setConcepts] = useState([]);
+    const [employees, setEmployees] = useState([]);
+
+
+    useEffect(() => {
+        getConcepts();
+        getEmployees();
+    }, []);
+
+    const getEmployees = async () => {
+        const response = await axios.get('http://localhost:3005/api/employee');
+        const data = await response.data;
+        setEmployees(data);
+    }
+
+    const getConcepts = async () => {
+        const response = await axios.get('http://localhost:3005/api/concept');
+        const data = await response.data;
+        setConcepts(data);
+    }
+
+    const handleChangeEmployee = (e) => {
+        const selectedEmployeeId = e.target.value;
+        setEmployee(selectedEmployeeId);
+    }
+
+    const handleChangeConcept = (e) => {
+        const selectedConceptId = e.target.value;
+        setConcept(selectedConceptId);
+
+        // Find the selected concept object from the concepts array
+        const selectedConcept = concepts.find(concept => concept.id === parseInt(selectedConceptId));
+
+        // Check if concept was found before accessing properties
+        if (selectedConcept) {
+            if (selectedConcept.calculationType === 'FACTORIAL' || selectedConcept.calculationType === 'LINEAL') {
+                document.getElementById('factor-quantity').classList.remove('d-none');
+                document.getElementById('factor-quantity').classList.add('d-flex');
+                document.getElementById('value').disabled = true;
+                setFactor(selectedConcept.factor);
+            } else {
+                document.getElementById('factor-quantity').classList.remove('d-flex');
+                document.getElementById('factor-quantity').classList.add('d-none');
+                document.getElementById('value').disabled = false;
+                setFactor('');
+            }
+        }
+    }
+
+    const handleChangeQuantity = async (e) => {
+        const selectedQuantity = e.target.value;
+        setQuantity(selectedQuantity);
+
+        if (selectedQuantity !== '') {
+            await axios.post('http://localhost:3005/api/settlement-news/preload', {
+                employeeId: parseInt(employee),
+                conceptId: parseInt(concept),
+                quantity: parseFloat(selectedQuantity)
+            }).then(res => {
+                setValue(res.data.value);
+            });
+        } else {
+            setValue('');
+        }
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         await axios.post('http://localhost:3005/api/settlement-news', {
             date: date,
-            quantity: quantity,
-            value: value,
-            concept: concept,
-            employee: employee,
+            employeeId: parseInt(employee),
+            conceptId: parseInt(concept),
+            quantity: parseFloat(quantity),
+            value: parseFloat(value)
         });
         navigate('/news');
     }
@@ -43,25 +109,34 @@ export default function CompCreateNew() {
 
                             <div className="mb-3 px-4 w-50">
                                 <label htmlFor="employee" className="form-label fs-4">Empleado</label>
-                                <input
+                                <select
                                     type="text"
                                     className="form-control fs-4"
                                     id="employee"
                                     value={employee}
-                                    onChange={e => setEmployee(e.target.value)}
-                                />
+                                    onChange={handleChangeEmployee}
+                                >
+                                    <option value="">Seleccione un empleado</option>
+                                    {employees.map((employee) => (
+                                        <option key={employee.id} value={employee.id}>{employee.firstName} {employee.otherNames} {employee.firstSurname} {employee.otherSurnames}</option>
+                                    ))}
+                                </select>
                             </div>
                         </div>
                         <div className="d-flex flex-row gap-4">
                             <div className="mb-3 px-4 w-50">
                                 <label htmlFor="concept" className="form-label fs-4">Concepto</label>
-                                <input
+                                <select
                                     type="text"
                                     className="form-control fs-4"
                                     id="concept"
                                     value={concept}
-                                    onChange={e => setConcept(e.target.value)}
-                                />
+                                    onChange={handleChangeConcept}>
+                                    <option value="">Seleccione un concepto</option>
+                                    {concepts.map((concept) => (
+                                        <option key={concept.id} value={concept.id}>{concept.name}</option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="mb-3 px-4 w-50">
                                 <label htmlFor="value" className="form-label fs-4">Valor</label>
@@ -73,9 +148,9 @@ export default function CompCreateNew() {
                                     onChange={e => setValue(e.target.value)}
                                 />
                             </div>
-                            
+
                         </div>
-                        <div className="d-none flex-row gap-4">
+                        <div className="d-none flex-row gap-4" id="factor-quantity">
                             <div className="mb-3 px-4 w-50">
                                 <label htmlFor="factor" className="form-label fs-4">Factor</label>
                                 <input
@@ -94,10 +169,10 @@ export default function CompCreateNew() {
                                     className="form-control fs-4"
                                     id="quantity"
                                     value={quantity}
-                                    onChange={e => setQuantity(e.target.value)}
+                                    onChange={handleChangeQuantity}
                                 />
                             </div>
-                            
+
                         </div>
 
                         <div className="d-flex justify-content-center mb-3">

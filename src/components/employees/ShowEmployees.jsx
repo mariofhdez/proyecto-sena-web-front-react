@@ -45,7 +45,7 @@ export default function CompShowEmployees() {
                                 >
                                     <td>{employee.identification}</td>
                                     <td>{employee.firstName} {employee.firstSurname}</td>
-                                    <td> Aquí va el cargo</td>
+                                    <td>{employee.position}</td>
                                     <td>{employee.isActive ? 'Activo' : 'Inactivo'}</td>
                                     <td>{employee.salary}</td>
                                     <td className="d-flex gap-2 justify-content-center">
